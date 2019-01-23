@@ -26,6 +26,9 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
+/**
+ * 图片合成
+ */
 public class QRCodeUtil {
 
     private static final Integer DPI = 300;
