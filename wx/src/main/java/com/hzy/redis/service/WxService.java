@@ -16,6 +16,8 @@ public interface WxService {
 
     String getWxAccessToken();
 
+    String getJsapiTicket();
+
     Map<String, String> getOAuthUser(WxRequest wxRequest);
 
     void sendMsg(NoticeRequest noticeRequest);

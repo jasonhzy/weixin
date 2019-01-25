@@ -14,6 +14,8 @@ public class WxConstant {
     public static String OAUTH_TOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/access_token";
     // 获取access_token
     public static String ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token";
+    //获取jsapi ticket
+    public static String JSAPI_TICKET_URL = "https://api.weixin.qq.com/cgi-bin/ticket/getticket";
     // 获取用户信息
     public static String WX_USERINFO = "https://api.weixin.qq.com/cgi-bin/user/info";
     // 模板消息
@@ -29,6 +31,8 @@ public class WxConstant {
     public static String WX_CREATE_MENU = "https://api.weixin.qq.com/cgi-bin/menu/create";
     public static String WX_DEL_MENU = "https://api.weixin.qq.com/cgi-bin/menu/delete";
 
-    // redis access token cache key
+    //wx access token cache key
     public static String WX_ACCESS_TOKEN_CACHE_KEY = "WX_CACHE_ACCESS_TOKEN";
+    //wx jsapi ticket cache key
+    public  static String WX_JSAPI_TICKET_CACHE_KEY = "WX_CACHE_JSAPI_TICKET";
 }

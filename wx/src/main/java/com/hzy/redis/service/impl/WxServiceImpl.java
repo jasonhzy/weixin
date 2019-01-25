@@ -65,6 +65,10 @@ public class WxServiceImpl implements WxService {
                 + WxConstant.APP_SECRET;
     }
 
+    private String getJsapiTicketUrl(String accessToken) {
+        return WxConstant.JSAPI_TICKET_URL + "?access_token=" + accessToken + "&type=jsapi";
+    }
+
     private String getOAuthUserUrl(String accessToken, String openid) {
         return WxConstant.WX_USERINFO + "?access_token=" + accessToken + "&openid=" + openid + "&lang=zh_CN";
     }
@@ -144,6 +148,30 @@ public class WxServiceImpl implements WxService {
     @Override
     public String getWxAccessToken() {
         return getAccessToken();
+    }
+
+    @Override
+    public String getJsapiTicket() {
+        // 凭证有效时间，避免频繁请求
+        String ticketKey = WxConstant.WX_JSAPI_TICKET_CACHE_KEY;
+        boolean bool = redisService.exists(ticketKey);
+        if (bool) {
+            return StrUtil.toStr(redisService.get(ticketKey));
+        }
+
+        String accessToken = getAccessToken();
+        String url = getJsapiTicketUrl(accessToken);
+        String res = HttpClientUtil.get(url);
+        JSONObject json = JSONObject.parseObject(res);
+        if (json.containsKey("errcode") && !"0".equals(json.containsKey("errcode"))) {
+            logger.error("get jsapi ticket error: " + res);
+            throw new WxErrorException("获取jsapi ticket，error：" + res);
+        }
+        // 返回：{ "errcode":0, "errmsg":"ok", "ticket":"xxxxx", "expires_in":7200 }
+        int expires_in = json.getIntValue("expires_in");
+        String ticket = json.getString("ticket");
+        redisService.set(ticketKey, ticket, expires_in - 200);
+        return ticket;
     }
 
     /**
