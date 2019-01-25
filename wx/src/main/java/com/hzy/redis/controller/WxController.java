@@ -63,6 +63,14 @@ public class WxController {
         return ResultUtil.success(result);
     }
 
+    @GetMapping(value = "/jsapiTicket")
+    public ResponseEntity<ResultData> getJsapiTicket(HttpServletRequest request) {
+        String jsapiTicket = wxService.getJsapiTicket();
+        Map<String, String> result = new HashMap<>();
+        result.put("ticket", jsapiTicket);
+        return ResultUtil.success(result);
+    }
+
     @PostMapping(value = "/info")
     public ResponseEntity<ResultData> getOpenid(HttpServletRequest request, @RequestBody WxRequest wxRequest) {
         Map<String, String> user = wxService.getOAuthUser(wxRequest);
